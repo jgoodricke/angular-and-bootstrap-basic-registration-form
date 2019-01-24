@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Registration Form</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet" />
+
+	<script src="js/angular.min.js"></script>
+	<script src="myApp.js"></script>
+
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+	<h1>Registration Form</h1>
+	<form name="myForm" ng-submit="myForm.$valid && submit()" novalidate="novalidate" method="post" action="http://mercury.swin.edu.au/it000000/formtest.php">
+		<div class="form-group">
+
+			<!--First Name-->
+			<!--letters only and required-->
+			<label for="firstName">First Name</label>
+			<input type="text" id="firstName" name="firstName" data-ng-model="user.firstName" ng-pattern="/^[a-zA-Z\s]*$/" required/>
+			<span data-ng-show="myForm.firstName.$touched && myForm.firstName.$error.required">This field is required.</span>
+			<span data-ng-show="myForm.firstName.$touched && myForm.firstName.$error.pattern">Your name can only contain letters.</span>
+			<br/>
+
+			<!--Last Name-->
+			<!--letters only and required-->
+			<label for="lastName">Last Name</label>
+			<input type="text" id="lastName" name="lastName" data-ng-model="user.lastName" ng-pattern="/^[a-zA-Z\s]*$/" required/>
+			<span data-ng-show="myForm.lastName.$touched && myForm.lastName.$error.required">This field is required.</span>
+			<span data-ng-show="myForm.lastName.$touched && myForm.lastName.$error.pattern">Your name can only contain letters.</span>
+			<br/>
+		</div>
+
+		<div class="form-group">
+			<!--Username-->
+			<!--min 3 characters and required-->
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username" data-ng-model="user.username" ng-minlength="3" required/>
+			<span data-ng-show="myForm.username.$touched && myForm.username.$error.required">This field is required.</span>
+			<span data-ng-show="myForm.username.$touched && myForm.username.$error.minlength">Your username must be at least 3 charecters long.</span>
+			<br/>
+
+			<!--Password-->
+			<!--at least 1 special character ($, %, ^, &, and *), minimum 8 characters and required-->
+			<label for="password">Password</label>
+			<input type="password" name="password" required ng-pattern="/[$%^&*]/" ng-minlength="8" ng-model="password" />
+			<span data-ng-show="myForm.password.$touched && myForm.password.$error.required">This field is required.</span>
+			<span data-ng-show="myForm.password.$touched && myForm.password.$error.minlength">Your password must be at least 8 charecters long.</span>
+			<span data-ng-show="myForm.password.$touched && myForm.password.$error.pattern">Your password must contain one of the following charecters: $%^&*.</span>
+			<br/>
+
+			<!--Password2-->
+			<!--must match above password-->
+			<label for="passwordConfirmation">Confirm Password</label>
+			<input type="password" name="passwordConfirmation" required ng-model="passwordConfirmation" password-confirm match-target="password" />
+
+			<span data-ng-show="myForm.passwordConfirmation.$touched && myForm.passwordConfirmation.$error.required">This field is required.</span>
+			<span data-ng-show="myForm.passwordConfirmation.$touched && myForm.passwordConfirmation.$error.match">The password fields don't match.</span>
+			<br/>
+
+			<!--email-->
+			<!--must be in email format and required-->
+			<label for="email">Email</label>
+			<input type="email" id="email" name="email" data-ng-model="user.email" required/>
+			<span data-ng-show="myForm.email.$touched && myForm.email.$error.required">This field is required.</span>
+			<span data-ng-show="myForm.email.$touched && myForm.email.$error.email">You must enter a valid email.</span>
+			<br/>
+		</div>
+		<div class="form-group">
+			<!--address-->
+			<label for="address">Address</label>
+			<input type="text" id="address" name="address" data-ng-model="user.address" ng-maxlength="40"/>
+			<span data-ng-show="myForm.address.$touched && myForm.address.$error.maxlength">You address can't be more than 40 charecters long.</span>
+			<br/>
+
+			<!--suburb-->
+			<label for="suburb">Suburb</label>
+			<input type="text" id="suburb" name="suburb" data-ng-model="user.suburb" ng-maxlength="20"/>
+			<span data-ng-show="myForm.suburb.$touched && myForm.suburb.$error.maxlength">You suburb can't be more than 20 charecters long.</span>
+			<br/>
+
+			<!--postcode-->
+			<!--exactly 4 numeric digits and required-->
+			<label for="postcode">Postcode</label>
+			<input type="text" id="postcode" name="postcode" data-ng-model="user.postcode" pattern="\d{4}" required/>
+			<span data-ng-show="myForm.postcode.$touched && myForm.postcode.$error.required">This field is required.</span>
+			<span data-ng-show="myForm.postcode.$error.pattern">Postcode must be exactly 4 numbers.</span>
+			<br/>
+
+			<!--mobile-->
+			<!--10 digits, must start with 04-->
+			<label for="mobile">Mobile Number</label>
+			<input type="text" id="mobile" name="mobile" data-ng-model="user.mobile" ng-pattern="/^04\d{8}$/g"/>
+			<span data-ng-show="myForm.mobile.$error.pattern">This mobile number isn't valid.</span>
+			<br/>
+		</div>
+
+		<!--submit button-->
+		<input type="submit" value="Submit" data-ng-disabled="myForm.$invalid"/>
+		<br/>
+		<!--Terms and Conditions-->
+		<div class="form-group">
+			<span ng-init="showTC = false"></span>
+			<input type="button" ng-click="showTC = !showTC" value="Terms and Conditions"/>
+		</div>
+	</form>
+	<div ng-if='showTC'>
+		<h2>Terms and Conditions</h2>
+		<p>WE HAVE TO USE CAPS LOCK FOR THIS SECTION BECAUSE SOME DEAD GUY 100 YEARS AGO PROBABLY SAID IF WE DON’T THEN IT DOESN’T COUNT.  SO WE CAN’T GUARANTEE THAT OUR SITE WON’T BREAK YOUR COMPUTER OR THAT YOU’LL FIND IT AMUSING OR THAT IT WILL HELP YOU MAKE MONEY.  WE TRY OUR BEST, BUT THAT’S ALL YOU GET JUST LIKE WHEN YOU BUY SOMETHING AT A RANDOM GARAGE SALE…YOU’RE BUYING IT “AS IS” EVEN IF IT BLOWS UP OR FRIES YOUR BRAIN.  SO EVEN IF SOMETHING TERRIBLE AND CATASTROPHIC HAPPENS BECAUSE YOU VIEWED OUR SITE, YOU CAN’T SUE US, OR ANYONE THAT IS CONNECTED WITH US. SINCE WE’RE IN CALIFORNIA, AND YOU MIGHT BE CALIFORNIA WE HAVE TO TELL YOU ABOUT THAT FANCY LAW THAT SAYS IF YOU GIVE UP YOUR “GENERAL” RIGHTS TO CLAIMS YOU DON’T HAVE TO GIVE UP YOUR RIGHTS TO CLAIMS THAT YOU COULDN’T HAVE KNOWN ABOUT (MAKES SENSE RIGHT?) WEL GUESS WHAT YOU ARE GIVING THOSE RIGHTS UP BECAUSE THIS IS A CONTRACT AND WE JUST TOLD YOU.  SORRY!  SO WE’RE DISCLAIMING ALL WARRANTIES AND LIABILITY FOR ANYTHING AND EVERYTHING, WHETHER OR NOT WE KNEW OR SHOULD HAVE BEEN PSYCHIC AND KNEW.  KING OF THE CASTLE MEANS THAT WHEN YOU COME INTO OUR SITE, YOU PLAY BY OUR RULES AND IF WE END UP BEING RESPONSIBLE FOR SOMETHING WE’RE NOT GOING TO PAY YOU A PENNY MORE THAN WHAT YOU MAY HAVE PAID US IN THE PAST MONTH, OR $50 WHATEVER IS SMALLER.  IF YOU’RE FROM ONE OF THOSE WEIRD STATES THAT SAY YOU CAN’T HAVE PROVISIONS LIKE THIS IN A CONTRACT, OR THAT WE CAN’T LIMIT WHAT WE PAY THEN OUR DAMAGES ARE LIMITED TO THE SMALLEST, TEENIEST, TINIEST, BIT ALLOWED BY LAW.  WOMP WOMP.</p>
+	</div>
+</body>
+</html>
